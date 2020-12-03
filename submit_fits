@@ -39,15 +39,18 @@ echo $FITDESC
 ./scripts/gen_subscipts.py $FITNAME
 
 # submit
-echo "qsub -N ${SETUP_PREFIX}_${FITNAME} \
-${JOBSCRIPT_DIR}/${SETUP_PREFIX}_${FITNAME}.sh"
+qsub -N ${SETUP_PREFIX}_${FITNAME} \
+ ${JOBSCRIPT_DIR}/${SETUP_PREFIX}_${FITNAME}.sh
+
 # submit fit, hold for setup - change here for number of replicas ran
-echo "qsub -N ${FIT_PREFIX}_${FITNAME} \
--hold_jid ${SETUP_PREFIX}_${FITNAME} \
--t $START_FIT_REP-$END_FIT_REP -R y ${JOBSCRIPT_DIR}/${FIT_PREFIX}_${FITNAME}.sh"
+qsub -N ${FIT_PREFIX}_${FITNAME} \
+ -hold_jid ${SETUP_PREFIX}_${FITNAME} \
+ -t $START_FIT_REP-$END_FIT_REP -R y ${JOBSCRIPT_DIR}/${FIT_PREFIX}_${FITNAME}.sh
+
 # submit evolution and postfit, hold for fits to finish
-echo "
+
 qsub -N ${POST_PREFIX}_${FITNAME} \
--hold_jid ${FIT_PREFIX}_$FITNAME \
-${JOBSCRIPT_DIR}/${POST_PREFIX}_${FITNAME}.sh"
+ -hold_jid ${FIT_PREFIX}_$FITNAME \
+ ${JOBSCRIPT_DIR}/${POST_PREFIX}_${FITNAME}.sh
+
 done
