@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./scripts/clean_output
+./scripts/clean_jobscripts

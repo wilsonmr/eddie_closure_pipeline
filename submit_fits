@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# get user settings
+. user_settings.ini
+# get global settings
+. scripts/global_settings.py
+
+
+if [ -z $1 ];
+then
+echo "supply start id (int)"
+exit 1
+fi
+
+if [ -z $2 ];
+then
+echo "supply end id (int)"
+exit 1
+fi
+
+for i in $(seq -f "%03g" $1 $2)
+do
+FITNAME=${FITNAME_PREFIX}${i}
+FITDESC=${FITDESC_PREFIX}${i}
+echo "processing: ${FITNAME}"
+echo $FITDESC
+
+# generate fit runcard with new seeds and description
+# if you already have the fit runcard then just comment this out
+# and ensure fit runcard is FITNAME_PREFIX.yml
+
+./scripts/gen_closure_runcard.py $FITNAME "${FITDESC}"
+
+# generate subscripts
+# if you're not running a closure fit then the setup script here can be modified
+# in templates - remove the vp-rebuild-data step and possibly reduce the
+# requested runtime
+
+./scripts/gen_subscipts.py $FITNAME
+
+# submit
+echo "qsub -N ${SETUP_PREFIX}_${FITNAME} \
+${JOBSCRIPT_DIR}/${SETUP_PREFIX}_${FITNAME}.sh"
+# submit fit, hold for setup - change here for number of replicas ran
+echo "qsub -N ${FIT_PREFIX}_${FITNAME} \
+-hold_jid ${SETUP_PREFIX}_${FITNAME} \
+-t $START_FIT_REP-$END_FIT_REP -R y ${JOBSCRIPT_DIR}/${FIT_PREFIX}_${FITNAME}.sh"
+# submit evolution and postfit, hold for fits to finish
+echo "
+qsub -N ${POST_PREFIX}_${FITNAME} \
+-hold_jid ${FIT_PREFIX}_$FITNAME \
+${JOBSCRIPT_DIR}/${POST_PREFIX}_${FITNAME}.sh"
+done
