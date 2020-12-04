@@ -11,7 +11,6 @@
 #$ -l h_vmem=8G
 # email on abort (a) and end (e) so we know when to log back onto eddie
 #$ -m ae
-#$ -M $USER@sms.ed.ac.uk
 
 #source bash_profile to ensure fitting tools are on the path
 source /home/s1758208/.bash_profile

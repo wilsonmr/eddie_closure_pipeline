@@ -13,7 +13,6 @@
 #$ -l h_vmem=4G
 # email on abort (a) only - we don't want to be spammed unless fit is crashing
 #$ -m a
-#$ -M $USER@sms.ed.ac.uk
 
 #source bash_profile to ensure fitting tools are on the path
 source /home/s1758208/.bash_profile
