@@ -46,7 +46,6 @@ qsub -N ${SETUP_PREFIX}_${FITNAME} \
 # submit fit, hold for setup - change here for number of replicas ran
 qsub -N ${FIT_PREFIX}_${FITNAME} \
  -hold_jid ${SETUP_PREFIX}_${FITNAME} \
- -M $EMAIL \
  -t $START_FIT_REP-$END_FIT_REP -R y ${JOBSCRIPT_DIR}/${FIT_PREFIX}_${FITNAME}.sh
 
 # submit evolution and postfit, hold for fits to finish

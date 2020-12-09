@@ -11,8 +11,6 @@
 # here we use 4 cores with 4G for n3fit global fit
 #$ -pe sharedmem 4
 #$ -l h_vmem=4G
-# email on abort (a) only - we don't want to be spammed unless fit is crashing
-#$ -m a
 
 #source bash_profile to ensure fitting tools are on the path
 source /home/s1758208/.bash_profile

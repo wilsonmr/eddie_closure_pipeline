@@ -7,8 +7,8 @@
 #set cwd (~/<job_id>)
 #$ -cwd
 #resources (time and memory) per replica
-#$ -l h_rt=00:15:00
-#$ -l h_vmem=8G
+#$ -l h_rt=00:25:00
+#$ -l h_vmem=4G
 # email on abort (a) only, if you wish you can get email when it begins
 # (change to ab)
 #$ -m a
